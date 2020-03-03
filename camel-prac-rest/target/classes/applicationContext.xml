@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camel="http://camel.apache.org/schema/spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd          
+		http://camel.apache.org/schema/spring 
+		http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+	<camelContext xmlns="http://camel.apache.org/schema/spring" id="camelContext">
+		
+	<!-- 	<camel:restConfiguration component="spark-rest" apiContextPath="api-doc" port="8080" bindingMode="json_xml"  host="localhost">
+			<camel:dataFormatProperty key="prettyPrint" value="true"/>
+			<camel:dataFormatProperty key="json.in.disableFeatures" value="FAIL_ON_UNKNOWN_PROPERTIES,ADJUST_DATES_TO_CONTEXT_TIME_ZONE"/>
+		</camel:restConfiguration> -->
+		
+	
+		<!-- <camel:rest path="/employee" consumes="application/json" produces="application/json">
+			<camel:get uri="getEmployee/2"></camel:get>
+		</camel:rest> -->
+	</camelContext>
+</beans>
