@@ -13,23 +13,23 @@
 		http://camel.apache.org/schema/spring 
 		http://camel.apache.org/schema/spring/camel-spring.xsd">
 
-	<bean id="cronProcessor" class="com.deloitte.practise.CronProcessor"></bean>
-	<bean id="cronResponseProcessor" class="com.deloitte.practise.CronResponseProcessor"></bean>
-	<bean id="exceptionProcessor" class="com.deloitte.practise.ExceptionProcessor"></bean>
+	<bean id="cronReqProcessor" class="com.deloitte.camel.processor.CronRequestProcessor"></bean>
+	<bean id="cronRespProcessor" class="com.deloitte.camel.processor.CronResponseProcessor"></bean>
+	<bean id="cronExcpProcessor" class="com.deloitte.camel.processor.CronExceptionProcessor"></bean>
 	<camelContext xmlns="http://camel.apache.org/schema/spring" id="camelContext">
 		
 		<camel:onException >
 			<camel:exception >java.lang.Exception</camel:exception>
-			<camel:process ref="exceptionProcessor"></camel:process>
+			<camel:process ref="cronExcpProcessor"></camel:process>
 		</camel:onException>
 		<camel:route>
 			<camel:from uri="quartz://report?cron=0+0/1+01-18+?+*+MON-FRI"/>
-			<camel:process ref="cronProcessor"/>
+			<camel:process ref="cronReqProcessor"/>
 			<camel:setHeader headerName="CamelHttpMethod" >
 				<camel:simple>GET</camel:simple>
 			</camel:setHeader>
-			<camel:to uri="http://localhost:8080/employee/getEmployee/2"/>
-			<camel:process ref="cronResponseProcessor"/>
+			<camel:to uri="http://localhost:8080/api/employee/getEmployee/2"/>
+			<camel:process ref="cronRespProcessor"/>
 		</camel:route>
 	</camelContext>
 </beans>

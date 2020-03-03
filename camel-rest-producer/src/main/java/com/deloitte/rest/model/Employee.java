@@ -1,8 +1,5 @@
 package com.deloitte.rest.model;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-
 public class Employee {
 
 	public int getEmpNo() {

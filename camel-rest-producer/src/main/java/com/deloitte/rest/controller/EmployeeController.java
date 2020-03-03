@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.deloitte.rest.model.Employee;
 
 @org.springframework.web.bind.annotation.RestController
-@RequestMapping(value="/employee")
+@RequestMapping(value="/api/employee")
 public class EmployeeController {
 
 	private static java.util.List<Employee> employees=new ArrayList<Employee>();
