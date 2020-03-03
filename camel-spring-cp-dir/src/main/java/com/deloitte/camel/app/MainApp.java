@@ -1,4 +1,4 @@
-package com.javainuse.main;
+package com.deloitte.camel.app;
 
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

@@ -5,11 +5,12 @@
 		http://camel.apache.org/schema/spring 
 		http://camel.apache.org/schema/spring/camel-spring.xsd">
 
-	<bean id="helloSayer" class="com.javainuse.processor.HelloSayer" />
+	<bean id="helloSayer" class="com.deloitte.camel.processor.HelloSayer" />
+	<bean id="fileTypeFilter" class="com.deloitte.camel.custom.filters.FilterUitl"></bean>
 
 	<camelContext xmlns="http://camel.apache.org/schema/spring">
 		<camel:route>
-			<camel:from uri="file:C:/sender?noop=false"/>
+			<camel:from uri="file:C:/sender?noop=false?&amp;include=.*.xml" />
 			<camel:process ref="helloSayer"/>
 			<camel:to uri="file:C:/receiver"/>
 		</camel:route>
