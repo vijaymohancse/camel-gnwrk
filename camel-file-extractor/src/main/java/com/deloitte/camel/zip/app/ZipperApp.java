@@ -1,9 +1,9 @@
-package com.deloitte.zip.app;
+package com.deloitte.camel.zip.app;
 
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class ZipApp {
+public class ZipperApp {
 
 	public static void main(String[] args) {
 		

@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camel="http://camel.apache.org/schema/spring"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:camel="http://camel.apache.org/schema/spring"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans.xsd          
 		http://camel.apache.org/schema/spring 
 		http://camel.apache.org/schema/spring/camel-spring.xsd">
-		
-		<bean id="zipFileDataFormat"
-					class="org.apache.camel.dataformat.zipfile.ZipFileDataFormat">
-				<property name="usingIterator" value="true" />
-		</bean>
 
-	<camelContext xmlns="http://camel.apache.org/schema/spring" id="camelContext">
-		<camel:route>
-			<camel:from uri="file:C:/Zip?noop=true"/>
-			<camel:unmarshal ref="zipFileDataFormat"/>
-			<!-- <camel:to uri="file:C:/unzip"/> -->
+	<bean id="zipFileDataFormat"
+		class="org.apache.camel.dataformat.zipfile.ZipFileDataFormat">
+		<property name="usingIterator" value="true" />
+	</bean>
+	<camel:camelContext>
+		<camel:contextScan />
+		<camel:route id="unzipMultipleFiles">
+			<camel:from
+				uri="file:C:/zipper/?noop=true" />
+			<camel:unmarshal ref="zipFileDataFormat" />
 			<camel:split streaming="true">
 				<camel:simple>${body}</camel:simple>
-				<camel:to uri="file:C:/unzip" />
+				<camel:to uri="file:C:/unzipper" />
 			</camel:split>
 		</camel:route>
-	</camelContext>
+	</camel:camelContext>
 </beans>
