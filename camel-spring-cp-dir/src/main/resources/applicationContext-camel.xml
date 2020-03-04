@@ -12,7 +12,8 @@
 		<camel:route>
 			<camel:from uri="file:C:/sender?noop=false?&amp;include=.*.xml" />
 			<camel:process ref="helloSayer"/>
-			<camel:to uri="file:C:/receiver"/>
 		</camel:route>
+		<
 	</camelContext>
+	
 </beans>
