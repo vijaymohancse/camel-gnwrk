@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:camel="http://camel.apache.org/schema/spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd          
+		http://camel.apache.org/schema/spring 
+		http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+	<bean id="removeExtensionProcessor"
+		class="com.deloitte.parallelprocessing.processor.RemoveExtensionProcessor"></bean>
+	<bean id="executorService" class="java.util.concurrent.Executors" factory-method="newFixedThreadPool">
+		<constructor-arg value="2"></constructor-arg>
+	</bean>
+	<camelContext
+		xmlns="http://camel.apache.org/schema/spring" id="camelContext">
+		<dataFormats>
+			<xmljson id="xmljson" />
+			<xmljson id="xmljsonWithOptions" forceTopLevelObject="true"
+				trimSpaces="true" rootName="newRoot" skipNamespaces="true"
+				removeNamespacePrefixes="true" expandableProperties="d e" />
+		</dataFormats>
+		<camel:route>
+			<camel:from uri="file:C:/inputfolder?noop=true"></camel:from>
+			<camel:split streaming="true" parallelProcessing="true" executorServiceRef="executorService">
+				<simple>${body}</simple>
+				<camel:process ref="removeExtensionProcessor"></camel:process>
+				<camel:log
+					message="Starting to process big file: ${header.CamelFileName}"></camel:log>
+				<camel:marshal>
+					<camel:xmljson />
+				</camel:marshal>
+				<camel:to
+					uri="file:C:/inputfolde?fileName=${header.CamelFileName}.json"></camel:to>
+			</camel:split>
+
+		</camel:route>
+	</camelContext>
+</beans>

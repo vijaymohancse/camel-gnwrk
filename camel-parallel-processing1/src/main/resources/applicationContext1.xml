@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:camel="http://camel.apache.org/schema/spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd          
+		http://camel.apache.org/schema/spring 
+		http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+	<!-- <bean id="xmlDataFormat" class="org.apache.camel.converter.jaxb.JaxbDataFormat"> 
+		<property name="context" ref="jaxBContext" ></property> </bean> <bean id="employee" 
+		class="com.deloitte.parallelprocessing.model.Employee"> </bean> <bean id="jaxBContext" 
+		class="javax.xml.bind.JAXBContext" factory-method="newInstance"> <constructor-arg 
+		ref="employee"></constructor-arg> </bean> <bean id="jsonDataFormat" class="org.apache.camel.component.jackson.JacksonDataFormat"> 
+		<property name="unmarshalType" ref="employee"></property> </bean> <bean id="marshallProcessor" 
+		class="com.deloitte.parallelprocessing.processor.MarshallProcessor"> </bean> -->
+<!-- 	<bean id="employee"
+		class="com.deloitte.parallelprocessing.model.Employee">
+	</bean>
+	<bean id="xmlJsonFormat"
+		class="org.apache.camel.model.dataformat.XmlJsonDataFormat">
+		<property name="encoding" value="UTF-8"></property>
+		</bean> -->
+		<bean id="marshallProcessor" 
+		class="com.deloitte.parallelprocessing.processor.MarshallProcessor"> </bean>
+		<bean id="removeExtensionProcessor" class="com.deloitte.parallelprocessing.processor.RemoveExtensionProcessor"></bean>
+	<camelContext
+		xmlns="http://camel.apache.org/schema/spring" id="camelContext">
+		<camel:route>
+			<camel:from uri="file:C:/inputfolder?noop=true"></camel:from>
+			<camel:split streaming="true" parallelProcessing="true" >
+				<simple>${body}</simple>
+				<camel:process ref="removeExtensionProcessor"></camel:process>
+				<camel:log
+				message="Starting to process big file: ${header.CamelFileName}"></camel:log>
+				<!-- <camel:unmarshal></camel:unmarshal> -->
+			<camel:to
+				uri="file:C:/inputfolde?fileName=${header.CamelFileName}.json"></camel:to>
+			</camel:split>
+			
+		</camel:route>
+	</camelContext>
+
+</beans>
